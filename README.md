@@ -6,7 +6,7 @@ Portfolix is a user-friendly template hosting website designed to simplify the p
 ## Installation 
 ### Clone the Repository: 
 Start by cloning the project repository to your local machine. You can do this by using the git clone command with the repository URL:
-`git clone https://github.com/yourusername/your-repo.git`
+`git clone https://github.com/Portfolix/Portfolix.git`
 
 
 ### Install dependencies

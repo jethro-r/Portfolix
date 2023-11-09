@@ -1,0 +1,30 @@
+{
+  "name": "portfolix",
+  "version": "1.0.0",
+  "description": "Portfolix is a user-friendly template hosting website designed to simplify the process of creating online portfolios. This website serves are a centralised hub where users can access a variety of templates, making the task of portfolio creation simple and enjoyable.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test",
+    "dev": "(cd server && nodemon server.js) & (cd client && npm start)",
+    "postinstall": "(cd client && npm i) & npm i"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Portfolix/Portfolix.git"
+  },
+  "author": "Team Portfolix",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Portfolix/Portfolix/issues"
+  },
+  "homepage": "https://github.com/Portfolix/Portfolix#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

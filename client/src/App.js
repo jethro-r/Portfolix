@@ -1,26 +1,16 @@
 import './App.css';
 import React from 'react'
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import './customCSS.scss';
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Portfolio from './pages/Portfolio';
+import Homepage from './pages/Homepage';
 
 function App() {
   return (
     <Router>
-      <div className="container">
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to="/" className="navbar-brand">MERN Stack CRUD</Link>
-          <div className="collpase navbar-collapse">
-            <ul className="navbar-nav mr-auto">
-              <li className="navbar-item">
-                <Link to="/" className="nav-link">Examples</Link>
-              </li>
-              <li className="navbar-item">
-                <Link to="/create" className="nav-link">Create Example</Link>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </div>
+      <Routes>
+        <Route path="/" index element={<Homepage/>}/>
+        <Route path="/templates/complex" element={<Portfolio/>}/>
+      </Routes>
     </Router>
   )
 }

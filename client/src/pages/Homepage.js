@@ -4,12 +4,12 @@ import Navbar from "../components/Navbar";
 
 export default function Homepage() {
   return (
-    <div>
+    <div className="bg-white">
       <Navbar />
-      <div class="w-full mx-auto overflow-">
+      <div class="w-full mx-auto">
         <div class="flex justify-center w-full h-[calc(35vh-7rem)] sm:h-[calc(45vh-7rem)] md:h-[calc(60vh-7rem)] mdlg:h-[calc(75vh-7rem)] xl:h-[calc(100vh-7rem)] overflow-clip">
           <img
-            class="scale-125 w-full h-full object-cover"
+            class="scale-125 w-full h-full object-cover z-10"
             src="http://localhost:3000/images/homepage-hero.png"
             alt=""
           />

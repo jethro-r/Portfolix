@@ -14,14 +14,14 @@ function classNames(...classes) {
 
 export default function Example() {
   return (
-    <Disclosure as="nav" className="bg-white">
+    <Disclosure as="nav">
       {({ open }) => (
         <>
-          <div className="mx-auto  px-2 min-[1100px]:px-6 lg:px-4">
+          <div className="mx-auto shadow-md bg-white relative px-2 min-[1100px]:px-6 lg:px-4 z-40" >
             <div className="relative flex h-28 items-center justify-between">
               <div className="flex flex-1 items-center justify-center min-[1100px]:items-stretch min-[1100px]:justify-between">
-                <div class="flex flex-shrink-0 items-center w-auto px-8 ml-8 py-6 bg-gradient-to-r from-cyan-900 to-green-600">
-                  <div class="text-center text-white text-4xl font-bold font-condensed">
+                <div class="flex flex-shrink-0 items-center w-auto sm:ml-8 py-4 px-4 sm:px-8 sm:py-6 bg-gradient-to-r from-cyan-900 to-green-600">
+                  <div class="text-center text-white text-md sm:text-4xl font-bold font-condensed">
                     PORTFOLIX
                   </div>
                 </div>

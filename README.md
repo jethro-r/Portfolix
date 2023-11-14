@@ -17,9 +17,16 @@ Install packages by executing this command:
 `npm run postinstall`
 
 ## Usage 
-Start the project with the following command:
-`npm run dev`
-This will start the server and the client in the same terminal
+Start the Project by starting the server and the client:
+You will need two seperate terminals/command prompts.
+
+### Server (1st)
+Start the server by using the following commands:
+`cd server`, `nodemon server.js`
+
+### Client (2nd)
+Start the server by using the following commands:
+`cd client`, `npm run start`
 
 ## Contributing 
 Pyper McCreanor-Rupe & Jethro Read

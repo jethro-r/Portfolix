@@ -21,7 +21,11 @@ module.exports = {
       "2xl": "1536px",
       // => @media (min-width: 1536px) { ... }
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'carousel-image': 'url(https://via.placeholder.com/1960x1080)'
+      }
+    },
   },
   plugins: [],
 };

@@ -1,22 +1,30 @@
 import React from "react";
-
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/20/solid'
 // for Homepage, image slider
 
 export default function Carousel() {
   return (
-    <div class="flex justify-center">
-      <div class="w-9/12 h-[36rem] bg-carousel-image bg-center">
-        <div class="text-black text-[15px] font-normal">
-          Black and white template
+    <div class="flex items-center justify-center flex-col space-y-6">
+      <div class="flex items-center justify-center w-full ">
+        <ChevronLeftIcon className="h-24 w-24" aria-hidden="true"/>
+        <div class="w-9/12 h-[42rem] bg-carousel-image bg-center rounded-[1rem] flex flex-col justify-end p-5">
+          <div class="text-black text-[15px] font-normal ">
+            Black and white template
+          </div>
+          <div class="text-black text-xl font-normal">
+            A simple and minimal design created by @user
+          </div>
         </div>
-        <div class="text-black text-xl font-normal">
-          A simple and minimal design created by @user
-        </div>
+        <ChevronRightIcon className="h-24 w-24" aria-hidden="true"/>
       </div>
-      <div class="w-[30px] h-[30px] left-[813px] top-[3176px] absolute bg-zinc-300 rounded-full"></div>
-      <div class="w-[30px] h-[30px] left-[813px] top-[3176px] absolute bg-zinc-300 rounded-full"></div>
-      <div class="w-[30px] h-[30px] left-[813px] top-[3176px] absolute bg-zinc-300 rounded-full"></div>
-      <div class="w-[30px] h-[30px] left-[813px] top-[3176px] absolute bg-zinc-300 rounded-full"></div>
+
+      <div className="flex space-x-2 ">
+        <div class="w-7 h-7 bg-zinc-300 rounded-full"></div>
+        <div class="w-7 h-7 bg-zinc-300 rounded-full"></div>
+        <div class="w-7 h-7 bg-zinc-300 rounded-full"></div>
+        <div class="w-7 h-7 bg-zinc-300 rounded-full"></div>
+      </div>
     </div>
+    
   );
 }

@@ -1,5 +1,6 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Logo } from "./Logo";
 
 const navigation = [
   { name: "HOME", href: "#", current: true },
@@ -12,19 +13,15 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Navbar() {
   return (
     <Disclosure as="nav">
       {({ open }) => (
         <>
-          <div className="mx-auto shadow-md bg-white   px-2 min-[1100px]:px-6 lg:px-4 z-40" >
+          <div className="mx-auto shadow-md bg-white   px-2 min-[1100px]:px-6 lg:px-4 z-40">
             <div className="relative flex h-28 items-center justify-between">
               <div className="flex flex-1 items-center justify-center min-[1100px]:items-stretch min-[1100px]:justify-between">
-                <div class="flex flex-shrink-0 items-center w-auto sm:ml-8 py-4 px-4 sm:px-8 sm:py-6 bg-gradient-to-r from-cyan-900 to-green-600">
-                  <div class="text-center text-white text-md sm:text-4xl font-bold font-condensed">
-                    PORTFOLIX
-                  </div>
-                </div>
+                <Logo />
 
                 <div className="hidden min-[1100px]:ml-6 min-[1100px]:flex">
                   <div className="flex space-x-4 items-center">

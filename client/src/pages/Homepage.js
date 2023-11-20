@@ -23,7 +23,7 @@ export default function Homepage() {
         <div class="w-full text-center text-black py-12 text-5xl font-extrabold">
           Your portfolio, your style!
         </div>
-        
+
         <section class="w-full flex justify-center ">
           <div class="flex flex-col xl:flex-row xl:items-center object-center w-11/12  bg-cyan-900">
             <img
@@ -43,7 +43,6 @@ export default function Homepage() {
           Browse through templates
         </div>
         <Carousel />
-
       </div>
       <Footer />
     </div>

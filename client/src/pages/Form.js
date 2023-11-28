@@ -94,11 +94,18 @@ export const Form = () => {
     return (
       <div>
         <FormSectionHeader />
-        <FormInput
-          props={{ title: "First Name" }}
-          formData={formData}
-          handleFormState={handleFormState}
-        />
+        <div>
+        <div class="flex flex-col justify-center">
+          <div>First Name: </div>
+          <input
+            onChange={handleFormState}
+            value={formData.name}
+            placeholder="John Doe"
+            required
+            class="w-[800px] h-[120px] bg-slate-500 rounded-[10px] border border-black"
+          ></input>
+        </div>
+      </div>
         <FormInput
           props={{ title: "Last Name" }}
           formData={formData}

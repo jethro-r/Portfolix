@@ -10,7 +10,7 @@ export const Form = () => {
   });
 
   const handleFormState = (e) => {
-    console.log(formData)
+    console.log(formData);
     setFormData({
       ...formData,
       name: e.target.value,
@@ -59,32 +59,22 @@ export const Form = () => {
   const FormSectionFooter = () => {
     return (
       <div>
-        <button onClick={handleSubmit}>
-          {page === 0 || page === 1 ? "Next" : "Submit"}
-        </button>
+        <button onClick={handleSubmit}></button>
         {page > 0 && <button onClick={() => setPage(page - 1)}>Back</button>}
-        <div class="w-[1022px] h-[22px] bg-zinc-400 rounded-[99px]"></div>
-        <div class="w-[170px] h-[22px] bg-green-600 rounded-[99px]"></div>
-        <div class="w-[126px] h-14 left-[450px] top-[1993px] absolute">
-          <div class="w-[126px] h-14 left-0 top-0 absolute bg-sky-700 rounded-[10px]"></div>
-          <div class="w-[126px] h-14 left-0 top-0 absolute text-center text-white text-xl font-bold tracking-[3px]">
-            BACK
-          </div>
+
+        <div class="w-[1022px] h-[22px] bg-zinc-400 rounded-[99px]">
+          <div class="w-[170px] h-full bg-green-600 rounded-[99px]"></div>
         </div>
-        <div class="w-[126px] h-14 left-[1345px] top-[913px] absolute">
-          <div class="w-[126px] h-14 left-0 top-0 absolute bg-sky-700 rounded-[10px]"></div>
-          <div class="w-[126px] h-14 left-0 top-0 absolute text-center text-white text-xl font-bold tracking-[3px]">
-            NEXT
-          </div>
+        <div class="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold">
+          BACK
         </div>
-        <div class="w-[152px] h-14 left-[1319px] top-[9514px] absolute">
-          <div class="w-[152px] h-14 left-0 top-0 absolute bg-sky-700 rounded-[10px]"></div>
-          <div class="w-[152px] h-14 left-0 top-0 absolute text-center text-white text-xl font-bold tracking-[3px]">
-            SUBMIT
-          </div>
+        <div class="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold">
+        {page === 0 || page === 7 ? "Next" : "Submit"}
         </div>
+
+
         <div class="w-[79px] h-8 left-[1471px] top-[983px] absolute text-center text-neutral-500 text-[25px] font-bold tracking-[2.50px]">
-          1/7
+          {page}/7
         </div>
       </div>
     );
@@ -95,17 +85,17 @@ export const Form = () => {
       <div>
         <FormSectionHeader />
         <div>
-        <div class="flex flex-col justify-center">
-          <div>First Name: </div>
-          <input
-            onChange={handleFormState}
-            value={formData.name}
-            placeholder="John Doe"
-            required
-            class="w-[800px] h-[120px] bg-slate-500 rounded-[10px] border border-black"
-          ></input>
+          <div class="flex flex-col justify-center">
+            <div>First Name: </div>
+            <input
+              onChange={handleFormState}
+              value={formData.name}
+              placeholder="John Doe"
+              required
+              class="w-[800px] h-[120px] bg-slate-500 rounded-[10px] border border-black"
+            ></input>
+          </div>
         </div>
-      </div>
         <FormInput
           props={{ title: "Last Name" }}
           formData={formData}
@@ -133,7 +123,7 @@ export const Form = () => {
         />
         <div class="w-[200px] h-[230px] left-[1176px] top-[428px] absolute">
           <div class="w-[200px] h-[200px] left-0 top-[30px] absolute bg-zinc-300 rounded-[400px] border border-black"></div>
-          <div class="w-[200px] h-[30px] left-0 top-0 absolute text-center text-zinc-800 text-sm font-normal">
+          <div class="w-[200px] h-[30px] text-center text-zinc-800 text-sm font-normal">
             Profile Picture
           </div>
           <div class="w-[200px] h-[30px] left-0 top-[115px] absolute text-center text-zinc-800 text-sm font-normal">

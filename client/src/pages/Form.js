@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { FormInput } from "../components/FormInput";
-import { FormReview } from "../components/FormReview";
 export const Form = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -17,31 +16,7 @@ export const Form = () => {
     });
   };
 
-  const [page, setPage] = useState(1);
-  const conditionalComponent = () => {
-    switch (page) {
-      case 0:
-        return <Tab0 id="0" formData={formData} />;
-      case 1:
-        return <Tab0 id="1" formData={formData} />;
-      case 2:
-        return <Tab2 id="2" formData={formData} />;
-      case 3:
-        return <Tab3 id="3" formData={formData} />;
-      case 4:
-        return <Tab4 id="4" formData={formData} />;
-      case 5:
-        return <Tab5 id="5" formData={formData} />;
-      case 6:
-        return <Tab6 id="6" formData={formData} />;
-      case 7:
-        return <FormReview formData={formData} />;
-      default:
-        return <Tab1 formData={formData} setFormData={setFormData} />;
-    }
-  };
   function handleSubmit() {
-    setPage(page + 1);
   }
 
   const FormSectionHeader = (props) => {
@@ -60,33 +35,28 @@ export const Form = () => {
     return (
       <div className="w-full self-end">
         <div class="flex justify-between">
-          {page > 0 && (
-            <button
-              onClick={() => setPage(page - 1)}
-              class="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold"
-            >
-              Back
-            </button>
-          )}
+          <button
+            onClick={() => setPage(page - 1)}
+            class="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold"
+          >
+            Back
+          </button>
 
           <button class="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold">
-            {page === 0 || page === 7 ? "Next" : "Submit"}
+            Submit
           </button>
-        </div>
-        <div class="flex justify-center items-center mt-4">
-          <div class="flex-grow h-[22px] bg-zinc-400 rounded-[99px]">
-            <div class="w-[170px] h-full bg-green-600 rounded-[99px]"></div>
-          </div>
-          <div class="h-8 mx-4 text-justify text-neutral-500 text-[25px] font-bold">
-            {page}/7
-          </div>
         </div>
       </div>
     );
   };
 
-  const Tab0 = ({ formData, setFormData }) => {
-    return (
+  const Tab2 = ({ formData, setFormData }) => {
+    return <div></div>;
+  };
+
+  return (
+    <div class="w-full relative flex flex-col">
+      <Navbar />
       <div class="flex flex-col h-full items-center justify-between px-32">
         <FormSectionHeader />
         <div>
@@ -127,52 +97,14 @@ export const Form = () => {
             formData={formData}
             handleFormState={handleFormState}
           />
-          <div class="w-[200px] h-[230px] left-[1176px] top-[428px] absolute">
-            <div class="w-[200px] h-[200px] left-0 top-[30px] absolute bg-zinc-300 rounded-[400px] border border-black"></div>
-            <div class="w-[200px] h-[30px] text-center text-zinc-800 text-sm font-normal">
-              Profile Picture
-            </div>
-            <div class="w-[200px] h-[30px] left-0 top-[115px] absolute text-center text-zinc-800 text-sm font-normal">
-              Upload
-            </div>
-          </div>
+          <FormInput props={{ title: "Drivers Licence" }} />
+          <FormInput props={{ title: "Degree Title" }} />
+          <FormInput props={{ title: "Statement", type: "box" }} />
+          <FormInput props={{ title: "Career Title" }} />
+
+          <FormSectionFooter class="self-center" />
         </div>
-        <FormSectionFooter class="self-center" />
       </div>
-    );
-  };
-
-  const Tab1 = ({ formData, setFormData }) => {
-    return <div></div>;
-  };
-  const Tab2 = ({ formData, setFormData }) => {
-    return (
-      <div>
-        <FormInput props={{ title: "Drivers Licence" }} />
-        <FormInput props={{ title: "Degree Title" }} />
-        <FormInput props={{ title: "Statement", type: "box" }} />
-        <FormInput props={{ title: "Career Title" }} />
-      </div>
-    );
-  };
-  const Tab3 = ({ formData, setFormData }) => {
-    return <div>Tab3</div>;
-  };
-  const Tab4 = ({ formData, setFormData }) => {
-    return <div>Tab4</div>;
-  };
-  const Tab5 = ({ formData, setFormData }) => {
-    return <div>Tab5</div>;
-  };
-  const Tab6 = ({ formData, setFormData }) => {
-    return <div>Tab6</div>;
-  };
-
-  return (
-    <div class="w-full relative flex flex-col">
-      <Navbar />
-
-      {conditionalComponent()}
     </div>
   );
 };

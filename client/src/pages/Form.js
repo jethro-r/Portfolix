@@ -20,34 +20,108 @@ export const Form = () => {
         body: "",
       },
     ],
-    education: {
-      title: "",
-      location: "",
-      completionDate: "",
-    },
-    skills: {
-      title: "",
-      body: "",
-    },
-    experience: {
-      title: "",
-      startMonthYear: "",
-      endMonthYear: "",
-      body: "",
-    },
-    links: {
-      title: "",
-      body: "",
-    },
+    education: [
+      {
+        title: "",
+        location: "",
+        completionDate: "",
+      },
+    ],
+    skills: [
+      {
+        title: "",
+        body: "",
+      },
+    ],
+    experience: [
+      {
+        title: "",
+        startMonth: "",
+        startYear: "",
+        endMonth: "",
+        endYear: "",
+        body: "",
+      },
+    ],
   };
 
   const [formState, setFormState] = useState(initialFormState);
+
   const handleFormState = (field, e) => {
     setFormState({ ...formState, [field]: e.target.value });
     console.log(formState);
   };
-  const handleDelete = (field, e) => {};
-  const handleAddAccomplishment = (field, e) => {};
+  const handleNestedFormState = (category, index, field, e) => {
+    setFormState({
+      ...formState,
+      [category]: formState[category].map((item, i) =>
+        i === index ? { ...item, [field]: e.target.value } : item
+      ),
+    });
+
+    console.log(formState);
+  };
+  const handleDelete = (category, index) => {
+    setFormState({
+      ...formState,
+      [category]: [...formState[category]].splice(index, 1)
+    })
+    
+  };
+  const handleAddAccomplishment = () => {
+    setFormState({
+      ...formState,
+      accomplishments: [
+        ...formState.accomplishments,
+        {
+          title: "",
+          body: "",
+        },
+      ],
+    });
+  };
+  const handleAddEducation = () => {
+    setFormState({
+      ...formState,
+      education: [
+        ...formState.education,
+        {
+          title: "",
+          location: "",
+          completionDate: "",
+        },
+      ],
+    });
+  };
+  const handleAddExperience = () => {
+    setFormState({
+      ...formState,
+      experience: [
+        ...formState.experience,
+        {
+          title: "",
+          startMonth: "",
+          startYear: "",
+          endMonth: "",
+          endYear: "",
+          body: "",
+        },
+      ],
+    });
+  };
+  const handleAddSkill = () => {
+    setFormState({
+      ...formState,
+      skills: [
+        ...formState.skills,
+        {
+          title: "",
+          body: "",
+        },
+      ],
+    });
+    console.log(formState);
+  };
 
   const FormHeader = (props) => {
     return (
@@ -89,7 +163,7 @@ export const Form = () => {
       <Navbar />
       <div className="flex flex-col h-full items-center justify-between px-8 lg:px-32 gap-12">
         <FormHeader />
-        <section className="w-11/12">
+        <section id="contact" className="w-11/12">
           <FormSectionHeader title="Contact Section" />
           <div className="flex gap-4">
             <div className="flex flex-col align-middle justify-center ">
@@ -161,7 +235,7 @@ export const Form = () => {
                   Full
                 </option>
               </select>
-              <div class="flex">
+              <div className="flex">
                 <div className="flex flex-col align-middle justify-center items-end">
                   <div className="flex m-2 h-12 items-center">
                     Degree Title:
@@ -188,366 +262,277 @@ export const Form = () => {
             </div>
           </div>
         </section>
-        <section className="w-11/12 mt-5">
+        <section id="accomplishment" className="w-11/12 mt-5">
           <FormSectionHeader title="Accomplishment Section" />
           <ol className="list-decimal list-outside ml-3 flex flex-col gap-4 ">
-            <li className=" border border-black bg-zinc-300 rounded-md">
-              <div class="flex ">
-                <div className="flex flex-col justify-center items-end mx-2">
-                  <div className="flex m-1 h-12 items-center">Title:</div>
-                  <div className="flex m-1 h-12 items-center">Body:</div>
-                </div>
-                <div className="flex flex-col justify-center flex-grow">
-                  <input
-                    onChange={(e) => handleFormState("degreeTitle", e)}
-                    value={formState.degreeTitle}
-                    placeholder="xxx"
-                    className=" h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                  />
-                  <input
-                    onChange={(e) => handleFormState("careerTitle", e)}
-                    value={formState.careerTitle}
-                    placeholder="xxx"
-                    className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                  />
-                </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
-            <li className=" border border-black bg-zinc-300 rounded-md">
-              <div class="flex ">
-                <div className="flex flex-col justify-center items-end mx-2">
-                  <div className="flex m-1 h-12 items-center">Title:</div>
-                  <div className="flex m-1 h-12 items-center">Body:</div>
-                </div>
-                <div className="flex flex-col justify-center flex-grow">
-                  <input
-                    onChange={(e) => handleFormState("degreeTitle", e)}
-                    value={formState.degreeTitle}
-                    placeholder="xxx"
-                    className=" h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                  />
-                  <input
-                    onChange={(e) => handleFormState("careerTitle", e)}
-                    value={formState.careerTitle}
-                    placeholder="xxx"
-                    className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+            {formState.accomplishments.map((accomplishments, index) => (
+              <li
+                key={index}
+                className=" border border-black bg-zinc-300 rounded-md"
+              >
+                <div className="flex ">
+                  <div className="flex flex-col justify-center items-end mx-2">
+                    <div className="flex m-1 h-12 items-center">Title:</div>
+                    <div className="flex m-1 h-12 items-center">Body:</div>
+                  </div>
+                  <div className="flex flex-col justify-center flex-grow">
+                    <input
+                      onChange={(e) =>
+                        handleNestedFormState(
+                          "accomplishments",
+                          index,
+                          "title",
+                          e
+                        )
+                      }
+                      value={formState.accomplishments.title}
+                      placeholder="xxx"
+                      className=" h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                    />
+                    <input
+                      onChange={(e) =>
+                        handleNestedFormState(
+                          "accomplishments",
+                          index,
+                          "body",
+                          e
+                        )
+                      }
+                      value={formState.accomplishments.body}
+                      placeholder="xxx"
+                      className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                    />
+                  </div>
+                  <FaTrash
+                    onClick={() => handleDelete("accomplishments", index)}
+                    className="cursor-pointer self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
                   />
                 </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
-            <li className=" border border-black bg-zinc-300 rounded-md">
-              <div class="flex ">
-                <div className="flex flex-col justify-center items-end mx-2">
-                  <div className="flex m-1 h-12 items-center">Title:</div>
-                  <div className="flex m-1 h-12 items-center">Body:</div>
-                </div>
-                <div className="flex flex-col justify-center flex-grow">
-                  <input
-                    onChange={(e) => handleFormState("degreeTitle", e)}
-                    value={formState.degreeTitle}
-                    placeholder="xxx"
-                    className=" h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                  />
-                  <input
-                    onChange={(e) => handleFormState("careerTitle", e)}
-                    value={formState.careerTitle}
-                    placeholder="xxx"
-                    className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                  />
-                </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
+              </li>
+            ))}
           </ol>
           <FaPlus
             onClick={handleAddAccomplishment}
-            className="w-full flex justify-self-center fill-zinc-600 m-2 text-2xl md:text-3xl lg:text-3xl"
+            className=" cursor-pointer w-full flex justify-self-center fill-zinc-600 m-2 text-2xl md:text-3xl lg:text-3xl"
           />
         </section>
-        <section className="w-11/12 mt-5">
+        <section id="education" className="w-11/12 mt-5">
           <FormSectionHeader title="Education Section" />
           <ol className="list-decimal list-outside ml-3 flex flex-col gap-4 ">
-            <li className="border border-black bg-zinc-300 rounded-md">
-              <div class="flex ">
-                <div className="flex flex-col justify-center items-end ml-2">
-                  <div className="flex m-1 h-12 items-center">Location:</div>
-                  <div className="flex m-1 h-12 items-center">
-                    Degree Title:
+            {formState.education.map((education, index) => (
+              <li
+                key={index}
+                className="border border-black bg-zinc-300 rounded-md"
+              >
+                <div className="flex ">
+                  <div className="flex flex-col justify-center items-end ml-2">
+                    <div className="flex m-1 h-12 items-center">Location:</div>
+                    <div className="flex m-1 h-12 items-center">
+                      Degree Title:
+                    </div>
                   </div>
+                  <div className="flex flex-col justify-center flex-grow">
+                    <div className="flex">
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState(
+                            "education",
+                            index,
+                            "location",
+                            e
+                          )
+                        }
+                        value={formState.education.location}
+                        placeholder="xxx"
+                        className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                      <div className="flex m-1 h-12 items-center">Date:</div>
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState(
+                            "education",
+                            index,
+                            "completionDate",
+                            e
+                          )
+                        }
+                        value={formState.education.completionDate}
+                        placeholder="xxx"
+                        className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                    </div>
+                    <div className="flex">
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState("education", index, "title", e)
+                        }
+                        value={formState.education.title}
+                        placeholder="xxx"
+                        className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                    </div>
+                  </div>
+                  <FaTrash
+                    onClick={() => handleDelete("education", index)}
+                    className="cursor-pointer self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
+                  />
                 </div>
-                <div className="flex flex-col justify-center flex-grow">
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("degreeTitle", e)}
-                      value={formState.degreeTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                    <div className="flex m-1 h-12 items-center">Date:</div>
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
-            <li className="border border-black bg-zinc-300 rounded-md">
-              <div class="flex ">
-                <div className="flex flex-col justify-center items-end ml-2">
-                  <div className="flex m-1 h-12 items-center">Location:</div>
-                  <div className="flex m-1 h-12 items-center">
-                    Degree Title:
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center flex-grow">
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("degreeTitle", e)}
-                      value={formState.degreeTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                    <div className="flex m-1 h-12 items-center">Date:</div>
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
-            <li className="border border-black bg-zinc-300 rounded-md">
-              <div class="flex ">
-                <div className="flex flex-col justify-center items-end ml-2">
-                  <div className="flex m-1 h-12 items-center">Location:</div>
-                  <div className="flex m-1 h-12 items-center">
-                    Degree Title:
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center flex-grow">
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("degreeTitle", e)}
-                      value={formState.degreeTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                    <div className="flex m-1 h-12 items-center">Date:</div>
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
+              </li>
+            ))}
           </ol>
           <FaPlus
-            onClick={handleAddAccomplishment}
-            className="w-full flex justify-self-center fill-zinc-600 m-2 text-2xl md:text-3xl lg:text-3xl"
+            onClick={handleAddEducation}
+            className=" cursor-pointer w-full flex justify-self-center fill-zinc-600 m-2 text-2xl md:text-3xl lg:text-3xl"
           />
         </section>
-        <section className="w-11/12 mt-5">
+        <section id="experience" className="w-11/12 mt-5">
           <FormSectionHeader title="Experience Section" />
           <ol className="list-decimal list-outside ml-3 flex flex-col gap-4 ">
-            <li className="border border-black bg-zinc-300 rounded-md">
-              <div class="flex">
-                <div className="flex flex-col justify-start items-end ml-2">
-                  <div className="flex m-1 h-12 items-center">Title:</div>
-                  <div className="flex m-1 h-12 items-center">Years:</div>
-                  <div className="flex m-1 h-12 items-center">Body:</div>
+            {formState.experience.map((experience, index) => (
+              <li
+                key={index}
+                className="border border-black bg-zinc-300 rounded-md"
+              >
+                <div className="flex">
+                  <div className="flex flex-col justify-start items-end ml-2">
+                    <div className="flex m-1 h-12 items-center">Title:</div>
+                    <div className="flex m-1 h-12 items-center">Years:</div>
+                    <div className="flex m-1 h-12 items-center">Body:</div>
+                  </div>
+                  <div className="flex flex-col justify-center w-full">
+                    <div className="flex">
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState("experience", index, "title", e)
+                        }
+                        value={formState.experience.title}
+                        placeholder="xxx"
+                        className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                    </div>
+                    <div className="flex">
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState(
+                            "experience",
+                            index,
+                            "startMonth",
+                            e
+                          )
+                        }
+                        value={formState.experience.startMonth}
+                        placeholder="xxx"
+                        className="w-24 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState(
+                            "experience",
+                            index,
+                            "startYear",
+                            e
+                          )
+                        }
+                        value={formState.experience.startYear}
+                        placeholder="xxx"
+                        className="w-24 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                      <span className="flex self-center mx-6 fill-red-600 font-bold text-4xl md:text-4xl lg:text-4xl">
+                        &#10230;
+                      </span>
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState(
+                            "experience",
+                            index,
+                            "endMonth",
+                            e
+                          )
+                        }
+                        value={formState.experience.endMonth}
+                        placeholder="xxx"
+                        className="w-24 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState(
+                            "experience",
+                            index,
+                            "endYear",
+                            e
+                          )
+                        }
+                        value={formState.experience.endYear}
+                        placeholder="xxx"
+                        className="w-24 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                    </div>
+                    <div className="flex">
+                      <textarea
+                        onChange={(e) =>
+                          handleNestedFormState("experience", index, "body", e)
+                        }
+                        value={formState.experience.body}
+                        placeholder="xxx"
+                        className="flex-grow max-w-2xl h-24 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                    </div>
+                  </div>
+                  <FaTrash
+                    onClick={() => handleDelete("experience", index)}
+                    className="cursor-pointer self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
+                  />
                 </div>
-                <div className="flex flex-col justify-center w-full">
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("title", e)}
-                      value={formState.title}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="w-36 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="w-36 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                    <span className="flex self-center mx-6 fill-red-600 font-bold text-4xl md:text-4xl lg:text-4xl">&#10230;</span>
-                    {/* <FaArrowRight
-                      className="flex w-auto self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                    /> */}
-
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="w-36 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="w-36 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                  <div className="flex">
-                    <textarea
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-24 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
-            <li className="border border-black bg-zinc-300 rounded-md">
-              <div class="flex ">
-                <div className="flex flex-col justify-center items-end ml-2">
-                  <div className="flex m-1 h-12 items-center">Location:</div>
-                  <div className="flex m-1 h-12 items-center">
-                    Degree Title:
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center flex-grow">
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("degreeTitle", e)}
-                      value={formState.degreeTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                    <div className="flex m-1 h-12 items-center">Date:</div>
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
-            <li className="border border-black bg-zinc-300 rounded-md">
-              <div class="flex ">
-                <div className="flex flex-col justify-center items-end ml-2">
-                  <div className="flex m-1 h-12 items-center">Location:</div>
-                  <div className="flex m-1 h-12 items-center">
-                    Degree Title:
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center flex-grow">
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("degreeTitle", e)}
-                      value={formState.degreeTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                    <div className="flex m-1 h-12 items-center">Date:</div>
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                  <div className="flex">
-                    <input
-                      onChange={(e) => handleFormState("careerTitle", e)}
-                      value={formState.careerTitle}
-                      placeholder="xxx"
-                      className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
-                  </div>
-                </div>
-                <FaTrash
-                  onClick={handleDelete}
-                  className="self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                />
-              </div>
-            </li>
+              </li>
+            ))}
           </ol>
           <FaPlus
-            onClick={handleAddAccomplishment}
-            className="w-full flex justify-self-center fill-zinc-600 m-2 text-2xl md:text-3xl lg:text-3xl"
+            onClick={handleAddExperience}
+            className=" cursor-pointer w-full flex justify-self-center fill-zinc-600 m-2 text-2xl md:text-3xl lg:text-3xl"
+          />
+        </section>
+        <section id="skills" className="w-11/12 mt-5">
+          <FormSectionHeader title="Skills Section" />
+          <ol className="list-decimal list-outside ml-3 flex flex-col gap-4 ">
+            {formState.skills.map((skills, index) => (
+              <li
+                key={index}
+                className="border border-black bg-zinc-300 rounded-md"
+              >
+                <div className="flex">
+                  <div className="flex flex-col justify-center items-end mx-2">
+                    <div className="flex m-1 h-12 items-center">Title:</div>
+                    <div className="flex m-1 h-12 items-center">Body:</div>
+                  </div>
+                  <div className="flex flex-col justify-center flex-grow">
+                    <input
+                      onChange={(e) =>
+                        handleNestedFormState("skills", index, "title", e)
+                      }
+                      value={formState.skills.title}
+                      placeholder="xxx"
+                      className=" h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                    />
+                    <input
+                      onChange={(e) =>
+                        handleFormState("skills", index, "body", e)
+                      }
+                      value={formState.skills.body}
+                      placeholder="xxx"
+                      className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                    />
+                  </div>
+                  <FaTrash
+                    onClick={() => handleDelete("skills", index)}
+                    className="cursor-pointer self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
+                  />
+                </div>
+              </li>
+            ))}
+          </ol>
+          <FaPlus
+            onClick={handleAddSkill}
+            className=" cursor-pointer w-full flex justify-self-center fill-zinc-600 m-2 text-2xl md:text-3xl lg:text-3xl"
           />
         </section>
         <FormFooter className="self-center" />

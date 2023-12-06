@@ -24,7 +24,10 @@ module.exports = {
     extend: {
       backgroundImage: {
         'carousel-image': 'url(https://via.placeholder.com/1960x1080)'
-      }
+      },
+      colors: {
+        navy: '#204666'
+      },
     },
   },
   plugins: [],

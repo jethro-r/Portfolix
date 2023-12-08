@@ -9,6 +9,7 @@ const navigation = [
   { name: "TEMPLATES", href: "/templates", current: false },
   { name: "LOGIN", href: "/login", current: false },
 ];
+
 const userStateNavigation = [
   { name: "LOGIN", href: "/login", current: false },
   { name: "LOGOUT", href: "/logout", current: false },

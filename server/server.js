@@ -10,10 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Admin:PortfolixGeeks@portfolix.o02is4v.mongodb.net/', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect('mongodb+srv://Admin:PortfolixGeeks@portfolix.o02is4v.mongodb.net/Portfolix');
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
@@ -29,7 +26,7 @@ const userSchema = new mongoose.Schema({
   password: String,
 });
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema, 'User');
 // user register
 app.post('/api/register', async (req, res) => {
   try {

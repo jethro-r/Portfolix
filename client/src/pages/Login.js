@@ -9,7 +9,7 @@ export default function Login() {
   });
 
   const handleSignupClick = () => {
-    navigate('/Signup');
+    navigate('/register');
   };
 
   const handleInputChange = (e) => {

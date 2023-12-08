@@ -1,12 +1,17 @@
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Logo } from "./Logo";
+import { useState, useEffect } from "react";
 
 const navigation = [
-  { name: "HOME", href: "#", current: true },
-  { name: "DASHBOARD", href: "#", current: false },
-  { name: "TEMPLATES", href: "#", current: false },
-  { name: "LOGOUT", href: "#", current: false },
+  { name: "HOME", href: "/", current: true },
+  { name: "DASHBOARD", href: "/dashboard", current: false },
+  { name: "TEMPLATES", href: "/templates", current: false },
+  { name: "LOGIN", href: "/login", current: false },
+];
+const userStateNavigation = [
+  { name: "LOGIN", href: "/login", current: false },
+  { name: "LOGOUT", href: "/logout", current: false },
 ];
 
 function classNames(...classes) {
@@ -14,6 +19,17 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+  const [user, setUser] = useState()
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      setUser(foundUser);
+      console.log(foundUser)
+    }
+  }, []);
+
   return (
     <Disclosure as="nav">
       {({ open }) => (

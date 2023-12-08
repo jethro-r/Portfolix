@@ -15,10 +15,10 @@ const server = express();
 server.use(cors());
 server.use(express.json());
 
-// const userRoute = require("./routes/user.route");
+const userRoute = require("./routes/user.route");
 // const portfolioRoute = require("./routes/portfolio.route");
 
-// server.use("/api/v1/users", usersRoute);
-// server.use("/api/v1/portfolios", portfolioRoute);
+server.use("/api/users", userRoute);
+// server.use("/api/portfolios", portfolioRoute);
 
 module.exports = server;

@@ -7,7 +7,7 @@ import {Form} from './pages/Form';
 import Templates from './pages/Templates';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         <Route path="/templates" index element={<Templates/>}/>
         <Route path="/dashboard" index element={<Dashboard/>}/>
         <Route path='/login' index element={<Login/>}/>
-        <Route path='/signup' index element={<Signup/>}/>
+        <Route path='/register' index element={<Register/>}/>
       </Routes>
     </Router>
   )

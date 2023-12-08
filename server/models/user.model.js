@@ -16,7 +16,7 @@ const UserSchema = new Schema(
       trim: true,
       default: "",
     },
-    email: {
+    emailAddress: {
       type: String,
       required: true,
       trim: true,
@@ -26,10 +26,6 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      default: "",
-    },
-    token: {
-      type: String,
       default: "",
     },
     portfolios: {

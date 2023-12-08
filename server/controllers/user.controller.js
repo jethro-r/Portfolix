@@ -1,24 +1,43 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const UserModel = require("../models/user.model");
 
 const userRegister = async (req, res) => {
+  console.log("hi")
   let oldUser;
   try {
     // Get user input
-    const { firstname, lastname, email, password } = req.body;
+    const {
+      firstName,
+      lastName,
+      username,
+      emailAddress,
+      password,
+      confirmPassword,
+    } = req.body;
 
     // Validate user input
-    if (!(email && password && firstname && lastname)) {
+    if (
+      !(emailAddress && password && firstName && lastName && username,
+      confirmPassword)
+    ) {
       return res.json({
         error: true,
         message: "All input is required.",
       });
     }
 
+    if (password !== confirmPassword) {
+      return res.json({
+        error: true,
+        message: "Passwords dont match.",
+      });
+    }
+
     // check if user already exist
     // Validate if user exist in our database
-    oldUser = await UserModel.findOne({ email: email.toLowerCase() }).exec();
+    oldUser = await UserModel.findOne({
+      username: username.toLowerCase(),
+    }).exec();
 
     if (oldUser) {
       return res.json({
@@ -32,27 +51,17 @@ const userRegister = async (req, res) => {
 
     // Create user in our database
     const user = new UserModel({
-      firstname,
-      lastname,
-      email: email.toLowerCase(), // sanitize: convert email to lowercase
+      firstName,
+      lastName,
+      username: username.toLowerCase(),
+      emailAddress: emailAddress.toLowerCase(), // sanitize: convert emailAddress to lowercase
       password: encryptedPassword,
-      markers: [],
+      portfolios: [],
     });
 
     await user.save();
-    // Create token
-    const token = jwt.sign(
-      { user_id: user._id, email },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
 
-    const [registedUser] = await UserModel.where({ email: email })
-      .set([{ token: token }])
-      .select({ password: 0 })
-      .exec();
+    const [registedUser] = await UserModel.where({ username: username }).exec();
 
     // return new user
     return res.json({
@@ -68,83 +77,31 @@ const userRegister = async (req, res) => {
 const userLogin = async (req, res) => {
   try {
     // Get user input
-    const { email, password } = req.body;
+    const { username, password } = req.body;
     // Validate user input
-    if (!(email && password)) {
+    if (!(username && password)) {
       return res.json({ error: true, message: "All input is required" });
     }
     // Validate if user exist in our database
-    const user = await UserModel.findOne({ email }).exec();
+    const user = await UserModel.findOne({ username }).exec();
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      // Create token
-      const token = jwt.sign(
-        { user_id: user._id, email },
-        process.env.TOKEN_KEY,
-        {
-          expiresIn: "2h",
-        }
-      );
-
-      const [loggedInUser] = await UserModel.where({ email: email })
-        .set([{ token: token }])
-        .select({
-          password: 0,
-        })
-        .exec();
+      const [loggedInUser] = await UserModel.where({
+        username: username,
+      }).exec();
 
       // user
       return res.json({
         error: false,
         user: loggedInUser,
       });
-    }
-    return res.json({
-      error: true,
-      message: "Invalid credentials",
-    });
-  } catch (err) {
-    console.log(err);
-  }
-  // Our register logic ends here
-};
-
-const validateAuthToken = async (req, res) => {
-  try {
-    const { token } = req.params;
-    if (!token) {
+    } else {
+      //if user && confirmed password dont exist then return invalid credentials
       return res.json({
         error: true,
-        message: "Invalid request",
+        message: "Invalid credentials",
       });
     }
-
-    const validatedUser = await UserModel.findOne({ token }).exec();
-    if (!validatedUser) {
-      return res.json({
-        error: true,
-        message: "User does not exist",
-      });
-    }
-    // refresh token
-    const newToken = jwt.sign(
-      { user_id: validatedUser._id, email: validatedUser.email },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
-    const [refreshedUser] = await UserModel.where({
-      email: validatedUser.email,
-    })
-      .set([{ token: newToken }])
-      .select({ password: 0 })
-      .exec();
-
-    return res.json({
-      error: false,
-      user: refreshedUser,
-    });
   } catch (err) {
     console.log(err);
   }
@@ -154,5 +111,4 @@ const validateAuthToken = async (req, res) => {
 module.exports = {
   userRegister,
   userLogin,
-  validateAuthToken,
 };

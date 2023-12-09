@@ -2,34 +2,36 @@ import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Logo } from "./Logo";
 import { useState, useEffect } from "react";
-
-const navigation = [
-  { name: "HOME", href: "/", current: true },
-  { name: "DASHBOARD", href: "/dashboard", current: false },
-  { name: "TEMPLATES", href: "/templates", current: false },
-  { name: "LOGIN", href: "/login", current: false },
-];
-
-const userStateNavigation = [
-  { name: "LOGIN", href: "/login", current: false },
-  { name: "LOGOUT", href: "/logout", current: false },
-];
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { Link } from "react-router-dom"; 
 
 export default function Navbar() {
-  const [user, setUser] = useState()
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
       const foundUser = JSON.parse(loggedInUser);
       setUser(foundUser);
-      console.log(foundUser)
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
+  const isLoggedIn = !!user; 
+
+  const navigation = [
+    { name: "HOME", href: "/", current: true },
+    { name: "DASHBOARD", href: "/dashboard", current: false },
+    { name: "TEMPLATES", href: "/templates", current: false },
+    { name: isLoggedIn ? "LOGOUT" : "LOGIN", href: isLoggedIn ? "/#" : "/login", current: false },
+  ];
+
+  const classNames = (...classes) => {
+    return classes.filter(Boolean).join(" ");
+  };
 
   return (
     <Disclosure as="nav">
@@ -43,9 +45,9 @@ export default function Navbar() {
                 <div className="hidden min-[1100px]:ml-6 min-[1100px]:flex">
                   <div className="flex space-x-4 items-center">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current
                             ? "bg-black hover:bg-gray-700 text-white"
@@ -53,9 +55,10 @@ export default function Navbar() {
                           "rounded-md px-3 py-2 text-2xl font-bold"
                         )}
                         aria-current={item.current ? "page" : undefined}
+                        onClick={item.name === "LOGOUT" ? handleLogout : undefined}
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>

@@ -32,7 +32,9 @@ export default function Login() {
       });
 
       if (response.ok) {
+        const user = await response.json();
         console.log('Login successful');
+        localStorage.setItem('user', JSON.stringify(user)); 
         navigate('/');
       } else {
         throw new Error('Login failed');

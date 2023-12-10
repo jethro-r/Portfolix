@@ -6,6 +6,7 @@ require("dotenv").config();
 const app = express();
 const portfolioRoutes = require("./routes/portfolio.route");
 const PortfolioModel = require('./models/portfolio.model');
+const UserModel = require('./models/user.model');
 const { registerUser, loginUser } = require('./controllers/user.controller');
 
 app.use(cors());
@@ -24,7 +25,7 @@ db.once('open', () => {
 app.get("/api/user/:username", async (req, res) => {
   try {
     const { username } = req.params;
-    const user = await User.findOne({ username })
+    const user = await UserModel.findOne({ username })
     if (!user) {
       return res.status(404).json({ message: "User not found!" });
     }

@@ -1,8 +1,15 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useNavigate } from 'react-router-dom';
 
-export default function Templates() {
+function Templates() {
+  const navigate = useNavigate();
+
+  const handleUseTemplate = () => {
+    navigate('/form'); 
+  };
+
   return (
     <div className="bg-white">
       <Navbar />
@@ -20,9 +27,9 @@ export default function Templates() {
             <div className="absolute bottom-12 left-4 text-lg md:text-xl">Colourful template</div>
             <div className="absolute bottom-4 left-4 text-sm md:text-base">A bright and colourful design created by @user</div>
           </div>
-          <div className="mt-4">
-            <div className="bg-zinc-300 text-black px-4 py-2 rounded-[50px]">USE TEMPLATE</div>
-          </div>
+          <button className="mt-4 bg-zinc-300 text-black px-4 py-2 rounded-[50px]">
+              USE TEMPLATE
+            </button>
 
 
           <div className="relative overflow-hidden mt-8 md:mt-16">
@@ -30,9 +37,10 @@ export default function Templates() {
             <div className="absolute bottom-12 left-4 text-lg md:text-xl">Blue and white template</div>
             <div className="absolute bottom-4 left-4 text-sm md:text-base">A simple and minimal design created by @user</div>
             </div>
-            <div className="mt-4">
-            <div className="bg-zinc-300 text-black px-4 py-2 rounded-[50px]">USE TEMPLATE</div>
-          </div>
+            <button className="mt-4 bg-zinc-300 text-black px-4 py-2 rounded-[50px]"
+              onClick={handleUseTemplate} >
+              USE TEMPLATE
+            </button>
           
 
           <div className="relative overflow-hidden mt-8 md:mt-16">
@@ -40,12 +48,14 @@ export default function Templates() {
             <div className="absolute bottom-12 left-4 text-lg md:text-xl">Complex template</div>
             <div className="absolute bottom-4 left-4 text-sm md:text-base">A complex design created by @user</div>
             </div>
-            <div className="mt-4">
-            <div className="bg-zinc-300 text-black px-4 py-2 rounded-[50px]">USE TEMPLATE</div>
-          </div>
+            <button className="mt-4 bg-zinc-300 text-black px-4 py-2 rounded-[50px]">
+              USE TEMPLATE
+            </button>
         </div>
         </div>
       <Footer />
     </div>
   );
 }
+
+export default Templates;

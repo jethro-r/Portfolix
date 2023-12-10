@@ -1,4 +1,4 @@
-const UserModel = require("../models/user.model");
+const PortfolioModel = require("../models/portfolio.model");
 
 const createPortfolio = async (req, res) => {
   try {

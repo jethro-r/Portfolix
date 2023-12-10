@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import { FaTrash, FaPlus, FaArrowRight } from "react-icons/fa";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const Form = () => {
+  const navigate = useNavigate();
+
   const initialFormState = {
     firstName: "",
     lastName: "",
@@ -14,6 +18,7 @@ export const Form = () => {
     degreeTitle: "",
     statement: "",
     templateName: "",
+    userID: JSON.parse(localStorage.getItem("user")),
     accomplishments: [
       {
         title: "",
@@ -45,34 +50,57 @@ export const Form = () => {
     ],
   };
 
-  const [formState, setFormState] = useState(initialFormState);
+  const [portfolioFormState, setPortfolioFormState] =
+    useState(initialFormState);
+
+  const handleFormSubmit = async () => {
+      try {
+        const createRes = await fetch(
+          `http://localhost:5001/api/portfolio/create`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(portfolioFormState),
+          }
+        );
+        if (createRes.ok) {
+          console.log("Portfolio creation successful");
+          navigate('/dashboard');
+        } else {
+          throw new Error("Portfolio creation failed");
+        }
+      } catch (error) {
+        console.error("Error creating portfolio: ", error);
+      }
+  };
 
   const handleFormState = (field, e) => {
-    setFormState({ ...formState, [field]: e.target.value });
-    console.log(formState);
+    setPortfolioFormState({ ...portfolioFormState, [field]: e.target.value });
+    console.log(portfolioFormState);
   };
   const handleNestedFormState = (category, index, field, e) => {
-    setFormState({
-      ...formState,
-      [category]: formState[category].map((item, i) =>
+    setPortfolioFormState({
+      ...portfolioFormState,
+      [category]: portfolioFormState[category].map((item, i) =>
         i === index ? { ...item, [field]: e.target.value } : item
       ),
     });
 
-    console.log(formState);
+    console.log(portfolioFormState);
   };
   const handleDelete = (category, index) => {
-    setFormState({
-      ...formState,
-      [category]: [...formState[category]].splice(index, 1)
-    })
-    
+    setPortfolioFormState({
+      ...portfolioFormState,
+      [category]: [...portfolioFormState[category]].splice(index, 1),
+    });
   };
   const handleAddAccomplishment = () => {
-    setFormState({
-      ...formState,
+    setPortfolioFormState({
+      ...portfolioFormState,
       accomplishments: [
-        ...formState.accomplishments,
+        ...portfolioFormState.accomplishments,
         {
           title: "",
           body: "",
@@ -81,10 +109,10 @@ export const Form = () => {
     });
   };
   const handleAddEducation = () => {
-    setFormState({
-      ...formState,
+    setPortfolioFormState({
+      ...portfolioFormState,
       education: [
-        ...formState.education,
+        ...portfolioFormState.education,
         {
           title: "",
           location: "",
@@ -94,10 +122,10 @@ export const Form = () => {
     });
   };
   const handleAddExperience = () => {
-    setFormState({
-      ...formState,
+    setPortfolioFormState({
+      ...portfolioFormState,
       experience: [
-        ...formState.experience,
+        ...portfolioFormState.experience,
         {
           title: "",
           startMonth: "",
@@ -110,17 +138,17 @@ export const Form = () => {
     });
   };
   const handleAddSkill = () => {
-    setFormState({
-      ...formState,
+    setPortfolioFormState({
+      ...portfolioFormState,
       skills: [
-        ...formState.skills,
+        ...portfolioFormState.skills,
         {
           title: "",
           body: "",
         },
       ],
     });
-    console.log(formState);
+    console.log(portfolioFormState);
   };
 
   const FormHeader = (props) => {
@@ -146,11 +174,17 @@ export const Form = () => {
     return (
       <div className="w-full self-end">
         <div className="flex justify-between">
-          <button className="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold"
+          >
             Back
           </button>
 
-          <button className="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold">
+          <button
+            onClick={() => handleFormSubmit()}
+            className="w-[126px] h-14 bg-sky-700 rounded-[10px] text-center text-white text-xl font-bold"
+          >
             Submit
           </button>
         </div>
@@ -177,31 +211,31 @@ export const Form = () => {
             <div className="flex flex-col ">
               <input
                 onChange={(e) => handleFormState("firstName", e)}
-                value={formState.firstName}
+                value={portfolioFormState.firstName}
                 placeholder="John"
                 className="w-[400px] h-12 bg-zinc-300 m-2 p-2 rounded-[10px] border border-black"
               />
               <input
                 onChange={(e) => handleFormState("lastName", e)}
-                value={formState.lastName}
+                value={portfolioFormState.lastName}
                 placeholder="Doe"
                 className="w-[400px] h-12 bg-zinc-300 m-2 p-2 rounded-[10px] border border-black"
               />
               <input
                 onChange={(e) => handleFormState("emailAddress", e)}
-                value={formState.emailAddress}
+                value={portfolioFormState.emailAddress}
                 placeholder="johndoe@gmail.com"
                 className="w-[400px] h-12 bg-zinc-300 m-2 p-2 rounded-[10px] border border-black"
               />
               <input
                 onChange={(e) => handleFormState("address", e)}
-                value={formState.address}
+                value={portfolioFormState.address}
                 placeholder="123 Driveway Lane"
                 className="w-[400px] h-12 bg-zinc-300 m-2 p-2 rounded-[10px] border border-black"
               />
               <input
                 onChange={(e) => handleFormState("phoneNumber", e)}
-                value={formState.phoneNumber}
+                value={portfolioFormState.phoneNumber}
                 placeholder="+123456789"
                 className="w-[400px] h-12 bg-zinc-300 m-2 p-2 rounded-[10px] border border-black"
               />
@@ -214,7 +248,7 @@ export const Form = () => {
                 rows={4}
                 cols={4}
                 onChange={(e) => handleFormState("statement", e)}
-                value={formState.statement}
+                value={portfolioFormState.statement}
                 placeholder="Personal Statement"
                 multiple
                 className="w-full h-28 m-2 p-2 bg-zinc-300 rounded-[10px] border border-black"
@@ -247,13 +281,13 @@ export const Form = () => {
                 <div className="flex flex-col ">
                   <input
                     onChange={(e) => handleFormState("degreeTitle", e)}
-                    value={formState.degreeTitle}
+                    value={portfolioFormState.degreeTitle}
                     placeholder="xxx"
                     className="w-[400px] h-12 bg-zinc-300 m-2 p-2 rounded-[10px] border border-black"
                   />
                   <input
                     onChange={(e) => handleFormState("careerTitle", e)}
-                    value={formState.careerTitle}
+                    value={portfolioFormState.careerTitle}
                     placeholder="xxx"
                     className="w-[400px] h-12 bg-zinc-300 m-2 p-2 rounded-[10px] border border-black"
                   />
@@ -265,51 +299,53 @@ export const Form = () => {
         <section id="accomplishment" className="w-11/12 mt-5">
           <FormSectionHeader title="Accomplishment Section" />
           <ol className="list-decimal list-outside ml-3 flex flex-col gap-4 ">
-            {formState.accomplishments.map((accomplishments, index) => (
-              <li
-                key={index}
-                className=" border border-black bg-zinc-300 rounded-md"
-              >
-                <div className="flex ">
-                  <div className="flex flex-col justify-center items-end mx-2">
-                    <div className="flex m-1 h-12 items-center">Title:</div>
-                    <div className="flex m-1 h-12 items-center">Body:</div>
-                  </div>
-                  <div className="flex flex-col justify-center flex-grow">
-                    <input
-                      onChange={(e) =>
-                        handleNestedFormState(
-                          "accomplishments",
-                          index,
-                          "title",
-                          e
-                        )
-                      }
-                      value={formState.accomplishments.title}
-                      placeholder="xxx"
-                      className=" h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+            {portfolioFormState.accomplishments.map(
+              (accomplishments, index) => (
+                <li
+                  key={index}
+                  className=" border border-black bg-zinc-300 rounded-md"
+                >
+                  <div className="flex ">
+                    <div className="flex flex-col justify-center items-end mx-2">
+                      <div className="flex m-1 h-12 items-center">Title:</div>
+                      <div className="flex m-1 h-12 items-center">Body:</div>
+                    </div>
+                    <div className="flex flex-col justify-center flex-grow">
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState(
+                            "accomplishments",
+                            index,
+                            "title",
+                            e
+                          )
+                        }
+                        value={portfolioFormState.accomplishments.title}
+                        placeholder="xxx"
+                        className=" h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                      <input
+                        onChange={(e) =>
+                          handleNestedFormState(
+                            "accomplishments",
+                            index,
+                            "body",
+                            e
+                          )
+                        }
+                        value={portfolioFormState.accomplishments.body}
+                        placeholder="xxx"
+                        className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
+                      />
+                    </div>
+                    <FaTrash
+                      onClick={() => handleDelete("accomplishments", index)}
+                      className="cursor-pointer self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
                     />
-                    <input
-                      onChange={(e) =>
-                        handleNestedFormState(
-                          "accomplishments",
-                          index,
-                          "body",
-                          e
-                        )
-                      }
-                      value={formState.accomplishments.body}
-                      placeholder="xxx"
-                      className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
-                    />
                   </div>
-                  <FaTrash
-                    onClick={() => handleDelete("accomplishments", index)}
-                    className="cursor-pointer self-center fill-red-600 m-2 text-xl md:text-2xl lg:text-3xl"
-                  />
-                </div>
-              </li>
-            ))}
+                </li>
+              )
+            )}
           </ol>
           <FaPlus
             onClick={handleAddAccomplishment}
@@ -319,7 +355,7 @@ export const Form = () => {
         <section id="education" className="w-11/12 mt-5">
           <FormSectionHeader title="Education Section" />
           <ol className="list-decimal list-outside ml-3 flex flex-col gap-4 ">
-            {formState.education.map((education, index) => (
+            {portfolioFormState.education.map((education, index) => (
               <li
                 key={index}
                 className="border border-black bg-zinc-300 rounded-md"
@@ -342,7 +378,7 @@ export const Form = () => {
                             e
                           )
                         }
-                        value={formState.education.location}
+                        value={portfolioFormState.education.location}
                         placeholder="xxx"
                         className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -356,7 +392,7 @@ export const Form = () => {
                             e
                           )
                         }
-                        value={formState.education.completionDate}
+                        value={portfolioFormState.education.completionDate}
                         placeholder="xxx"
                         className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -366,7 +402,7 @@ export const Form = () => {
                         onChange={(e) =>
                           handleNestedFormState("education", index, "title", e)
                         }
-                        value={formState.education.title}
+                        value={portfolioFormState.education.title}
                         placeholder="xxx"
                         className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -388,7 +424,7 @@ export const Form = () => {
         <section id="experience" className="w-11/12 mt-5">
           <FormSectionHeader title="Experience Section" />
           <ol className="list-decimal list-outside ml-3 flex flex-col gap-4 ">
-            {formState.experience.map((experience, index) => (
+            {portfolioFormState.experience.map((experience, index) => (
               <li
                 key={index}
                 className="border border-black bg-zinc-300 rounded-md"
@@ -405,7 +441,7 @@ export const Form = () => {
                         onChange={(e) =>
                           handleNestedFormState("experience", index, "title", e)
                         }
-                        value={formState.experience.title}
+                        value={portfolioFormState.experience.title}
                         placeholder="xxx"
                         className="flex-grow h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -420,7 +456,7 @@ export const Form = () => {
                             e
                           )
                         }
-                        value={formState.experience.startMonth}
+                        value={portfolioFormState.experience.startMonth}
                         placeholder="xxx"
                         className="w-24 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -433,7 +469,7 @@ export const Form = () => {
                             e
                           )
                         }
-                        value={formState.experience.startYear}
+                        value={portfolioFormState.experience.startYear}
                         placeholder="xxx"
                         className="w-24 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -449,7 +485,7 @@ export const Form = () => {
                             e
                           )
                         }
-                        value={formState.experience.endMonth}
+                        value={portfolioFormState.experience.endMonth}
                         placeholder="xxx"
                         className="w-24 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -462,7 +498,7 @@ export const Form = () => {
                             e
                           )
                         }
-                        value={formState.experience.endYear}
+                        value={portfolioFormState.experience.endYear}
                         placeholder="xxx"
                         className="w-24 h-9 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -472,7 +508,7 @@ export const Form = () => {
                         onChange={(e) =>
                           handleNestedFormState("experience", index, "body", e)
                         }
-                        value={formState.experience.body}
+                        value={portfolioFormState.experience.body}
                         placeholder="xxx"
                         className="flex-grow max-w-2xl h-24 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                       />
@@ -494,7 +530,7 @@ export const Form = () => {
         <section id="skills" className="w-11/12 mt-5">
           <FormSectionHeader title="Skills Section" />
           <ol className="list-decimal list-outside ml-3 flex flex-col gap-4 ">
-            {formState.skills.map((skills, index) => (
+            {portfolioFormState.skills.map((skills, index) => (
               <li
                 key={index}
                 className="border border-black bg-zinc-300 rounded-md"
@@ -509,15 +545,15 @@ export const Form = () => {
                       onChange={(e) =>
                         handleNestedFormState("skills", index, "title", e)
                       }
-                      value={formState.skills.title}
+                      value={portfolioFormState.skills.title}
                       placeholder="xxx"
                       className=" h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                     />
                     <input
                       onChange={(e) =>
-                        handleFormState("skills", index, "body", e)
+                        handleNestedFormState("skills", index, "body", e)
                       }
-                      value={formState.skills.body}
+                      value={portfolioFormState.skills.body}
                       placeholder="xxx"
                       className="h-12 bg-zinc-100 m-1 p-2 rounded-[10px] border border-black"
                     />

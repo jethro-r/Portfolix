@@ -1,16 +1,19 @@
-//server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
-
+require("dotenv").config();
 const app = express();
+const portfolioRoutes = require("./routes/portfolio.route");
+const PortfolioModel = require('./models/portfolio.model');
 
 app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://Admin:PortfolixGeeks@portfolix.o02is4v.mongodb.net/Portfolix');
+const uri = process.env.mongoURI;
+
+mongoose.connect(uri);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', () => {
@@ -27,6 +30,20 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema, 'User');
+
+app.get("/api/user/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username })
+    if (!user) {
+      return res.status(404).json({ message: "User not found!" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+})
 // user register
 app.post('/api/register', async (req, res) => {
   try {
@@ -54,7 +71,6 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-
 // user login
 app.post('/api/login', async (req, res) => {
   try {
@@ -78,6 +94,8 @@ app.post('/api/login', async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
+app.use("/api/portfolio", portfolioRoutes)
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
